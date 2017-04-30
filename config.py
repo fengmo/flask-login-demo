@@ -8,6 +8,10 @@ class Config():
     CSRF_ENABLED = True
     SECRET_KEY = os.environ.get('SECRET_KEY') or '$1$oX3Y3KOw$oUpYYi6gxebUmLI.329O8/'
     WTF_CSRF_SECRET_KEY = '$1$oX3Y3KOw$oUpYYi6gxebUmLI.329O8/'
+
+    @staticmethod
+    def init_app(app):
+        pass
 	
 class SendMail():
     MAIL_SERVER = 'smtp.163.com'

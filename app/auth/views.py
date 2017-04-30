@@ -29,8 +29,8 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
 	user = User.query.filter_by(username=form.username.data).first()
-	#email = User.query.filter_by(email=form.email.data).first()
-	if user is None:
+	email = User.query.filter_by(email=form.email.data).first()
+	if user is None and email is None:
 	    user = User(
 		username = form.username.data, 
 		password = form.password_one.data, 

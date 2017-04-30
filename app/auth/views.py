@@ -2,6 +2,7 @@
 from . import auth
 from .. import db
 from ..models import User
+from ..mail import send_mail
 from flask import render_template, redirect, flash, url_for, request
 from flask_login import current_user, login_required, login_user, logout_user
 from forms import LoginForm, RegisterForm, ChangepwForm
@@ -28,6 +29,7 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
 	user = User.query.filter_by(username=form.username.data).first()
+	#email = User.query.filter_by(email=form.email.data).first()
 	if user is None:
 	    user = User(
 		username = form.username.data, 
@@ -36,8 +38,7 @@ def register():
 	    db.session.add(user)
 	    db.session.commit()
             token = user.generate_confirmation_token()
-	    #send_mail(user.email, 'Confirm Your Account', 'auth/email/confirm', user=user, token=token)
-            #flash(u'A confirmation email has been sent to you by email.')
+	    send_mail(user.email, u'欢迎注册成为本博客用户', 'mail/confirm', user=user, token=token)
 	    return redirect(url_for('main.index'))
     return render_template('auth/register.html', form=form)
 
